@@ -14,7 +14,7 @@
          * Navy: #0A0F1B
          * Gray: #1F242E
          * White: #F8FAFB
-        */
+         */
         :root {
             --color-primary: #00D8FF;
             --color-navy: #0A0F1B;
@@ -184,6 +184,7 @@
 <body class="grid-background">
 
     <!-- Custom Cursor -->
+    <!-- These elements MUST exist for the script to find them -->
     <div class="custom-cursor">
         <div class="cursor-crosshair"><div class="cursor-dot"></div></div>
     </div>
@@ -339,7 +340,7 @@
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">How does it function when GPS is jammed?</summary>
                     <p class="text-gray-400 mt-2">OMNIA AI uses Visual-Inertial Odometry (VIO). It fuses data from standard cameras and onboard IMUs to create a highly accurate, real-time position estimate, allowing it to navigate without any external signals.</p>
-                </details>
+                </Fdetails>
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">Who is behind it?</summary>
                     <p class="text-gray-400 mt-2">Our team is composed of leading engineers, researchers, and strategists from UC Berkeley, with deep expertise in robotics, AI, and national security.</p>
@@ -380,20 +381,45 @@
 
         if (!isTouchDevice()) {
             document.body.style.cursor = 'none';
-            const showCursor = () => { cursor.style.opacity = 1; trail.style.opacity = 1; };
-            const hideCursor = () => { cursor.style.opacity = 0; trail.style.opacity = 0; };
+            // * FIX: Add null checks inside functions to prevent errors if elements aren't found
+            const showCursor = () => { 
+                if (cursor) cursor.style.opacity = 1; 
+                if (trail) trail.style.opacity = 1; 
+            };
+            const hideCursor = () => { 
+                if (cursor) cursor.style.opacity = 0; 
+                if (trail) trail.style.opacity = 0; 
+            };
 
             document.addEventListener('mousemove', (e) => {
-                requestAnimationFrame(() => {
+                // * OPTIMIZATION + FIX: Add null check
+                if (cursor) {
                     cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                    trail.style.transform = `translate3d(${e.clientX - trail.offsetWidth/2}px, ${e.clientY - trail.offsetHeight/2}px, 0)`;
+                }
+
+                // The trail should still be smoothed, so it *stays* in rAF.
+                requestAnimationFrame(() => {
+                    // * FIX: Add null check
+                    if (trail) {
+                        trail.style.transform = `translate3d(${e.clientX - trail.offsetWidth/2}px, ${e.clientY - trail.offsetHeight/2}px, 0)`;
+                    }
                 });
             });
 
             document.addEventListener('mouseenter', showCursor);
             document.addEventListener('mouseleave', hideCursor);
-            document.addEventListener('mousedown', () => cursor.firstElementChild.style.transform = 'scale(0.9)');
-            document.addEventListener('mouseup', () => cursor.firstElementChild.style.transform = '');
+            document.addEventListener('mousedown', () => {
+                // * FIX: Add null check
+                if (cursor && cursor.firstElementChild) {
+                    cursor.firstElementChild.style.transform = 'scale(0.9)';
+                }
+            });
+            document.addEventListener('mouseup', () => {
+                // * FIX: Add null check
+                if (cursor && cursor.firstElementChild) {
+                    cursor.firstElementChild.style.transform = '';
+                }
+            });
 
             hoverables.forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
@@ -428,5 +454,4 @@
     </script>
 </body>
 </html>
-
 
