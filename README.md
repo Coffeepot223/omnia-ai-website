@@ -1,2 +1,2 @@
 # omnia-ai-website
-OMNIA AI
+OMNIA AI: https://coffeepot223.github.io/omnia-ai-website/
