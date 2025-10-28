@@ -37,7 +37,11 @@
             top: 0;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s ease-out, opacity 0.2s ease-out;
+            /* * OPTIMIZATION: Removed 'transform' from the transition.
+             * This makes the cursor position update 1:1 with the mouse,
+             * eliminating the "floaty" feeling that can be perceived as lag.
+             */
+            transition: opacity 0.2s ease-out;
             opacity: 0; /* Initially hidden */
         }
 
@@ -188,7 +192,12 @@
     <div class="container mx-auto px-4 md:px-8">
         
         <!-- Header -->
-        <header class="flex justify-between items-center py-6 sticky top-0 bg-black/50 backdrop-blur-md z-50">
+        <!-- 
+          * OPTIMIZATION: Removed 'backdrop-blur-md'.
+          * This effect can be a source of scroll lag/jank on some systems
+          * as the browser has to re-calculate the blur on every pixel scrolled.
+        -->
+        <header class="flex justify-between items-center py-6 sticky top-0 bg-black/50 z-50">
             <div class="text-2xl font-extrabold tracking-widest text-white">OMNIA AI</div>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#how-it-works" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">How It Works</a>
@@ -419,4 +428,5 @@
     </script>
 </body>
 </html>
+
 
