@@ -222,8 +222,8 @@
         
         #scene3-sticky-container {
             position: sticky;
-            top: 50vh; /* Stick to the vertical center */
-            transform: translateY(-50%);
+            top: 15vh; /* MODIFIED: Was 50vh. Sticks closer to the top now. */
+            /* REMOVED: transform: translateY(-50%); This was causing the overlap. */
             width: 100%;
             overflow: hidden;
         }
@@ -301,6 +301,214 @@
             box-shadow: 0 0 15px var(--color-primary);
         }
         /* --- End Scene 3 Styles --- */
+
+        /* --- NEW: Scene 4 Split-View Visual --- */
+        .split-view-container {
+            display: grid;
+            /* Responsive grid: 1 column on mobile, 2 on medium screens+ */
+            grid-template-columns: 1fr;
+            md:grid-template-columns: 1fr 1fr;
+            background-color: var(--color-gray);
+            /* Use a flexible aspect ratio for responsiveness */
+            aspect-ratio: 4 / 3;
+            md:aspect-ratio: 16 / 9;
+            position: relative;
+        }
+
+        .split-panel {
+            padding: 1rem;
+            md:padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .split-panel-left {
+            /* Dashed border on the bottom for mobile, right for desktop */
+            border-bottom: 2px dashed rgba(255, 0, 0, 0.5);
+            md:border-bottom: none;
+            md:border-right: 2px dashed rgba(255, 0, 0, 0.5);
+            animation: split-glitch 3s infinite alternate;
+        }
+
+        .split-panel-right {
+            border-top: 2px dashed var(--color-primary);
+            md:border-top: none;
+            md:border-left: 2px dashed var(--color-primary);
+        }
+
+        .split-panel .status-text {
+            /* Responsive font size */
+            font-size: 1.25rem;
+            md:font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .split-panel .status-subtext {
+            font-size: 0.875rem;
+            md:font-size: 1rem;
+        }
+
+        .split-panel .drone-svg {
+            /* Responsive icon size */
+            width: 60px;
+            height: 60px;
+            md:width: 100px;
+            md:height: 100px;
+            margin: 1rem 0;
+            md:margin: 1.5rem 0;
+            opacity: 0.7;
+        }
+
+        /* Red-glitched drone */
+        .split-panel-left .drone-svg {
+            stroke: #b22234;
+            animation: drone-flicker 1.5s infinite;
+        }
+
+        /* Blue-stable drone */
+        .split-panel-right .drone-svg {
+            stroke: var(--color-primary);
+            filter: drop-shadow(0 0 10px var(--color-primary));
+        }
+
+        .panel-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            /* Smaller grid on mobile */
+            background-size: 20px 20px;
+            md:background-size: 40px 40px;
+            opacity: 0.5;
+        }
+
+        .split-panel-left .panel-grid {
+            background-image:
+                linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+            animation: grid-pan 5s linear infinite;
+        }
+
+        .split-panel-right .panel-grid {
+             background-image:
+                linear-gradient(rgba(0, 216, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 216, 255, 0.1) 1px, transparent 1px);
+        }
+
+        @keyframes split-glitch {
+            0% { transform: translate(0); }
+            48% { transform: translate(0); }
+            50% { transform: translate(-5px, 2px); }
+            52% { transform: translate(3px, -1px); }
+            54% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes drone-flicker {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes grid-pan {
+            from { background-position: 0 0; }
+            to { background-position: -40px -40px; }
+        }
+        /* --- End Scene 4 Styles --- */
+
+
+        /* --- NEW: Scene 7 Visuals --- */
+        #scene7-visual {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 4rem auto 0 auto; /* mt-16 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .drone-wireframe {
+            width: 60%;
+            height: 60%;
+            stroke: var(--color-primary);
+            stroke-width: 1.5;
+            fill: none;
+            filter: drop-shadow(0 0 10px var(--color-primary));
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        .radar-pulse {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            opacity: 0.5;
+            transform: scale(1);
+            animation: radar-ping 3s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 5;
+        }
+
+        @keyframes radar-ping {
+            0% {
+                transform: scale(0.1);
+                opacity: 0.8;
+            }
+            90% {
+                transform: scale(30); /* Expands to 300px if base is 10px */
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* --- NEW: Scene 7 Form --- */
+        #contact-form {
+            max-width: 500px;
+            margin: 2rem auto 0 auto;
+        }
+        .form-input {
+            width: 100%;
+            background-color: var(--color-gray);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+            outline: none;
+        }
+        .form-button {
+            /* Re-use existing CTA style */
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: black;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .form-button:hover {
+            background-color: var(--color-white);
+        }
 
         /* Hero Boot-up Animations */
         #hero-h1-1, #hero-h1-2, #hero-p, #hero-cta {
@@ -470,12 +678,59 @@
                     <p class="text-gray-400">Proven to execute tasks effectively in environments with active GPS and signal jamming.</p>
                 </div>
             </div>
-             <!-- Split View Image -->
+            
+            <!-- MODIFIED: Replaced placeholder img with custom HTML/CSS/SVG visual -->
             <div class="max-w-4xl mx-auto mt-12 rounded-lg overflow-hidden border border-gray-700">
-                 <img src="https://placehold.co/1200x800/1F242E/FFFFFF?text=Split-View%3A+Left+drone+%22SIGNAL+LOST%22+%7C+Right+drone+blue+AI+overlay" 
-                     alt="Smarter, Not New" class="w-full h-full object-cover"
-                     onerror="this.src='https://placehold.co/1200x800/1F242E/FFFFFF?text=Split-Screen%3A+Left+drone+%22SIGNAL+LOST%22+%7C+Right+drone+blue+AI+overlay+%22Smarter%2C+Not+New%22'">
+                <div class="split-view-container">
+                    <!-- Left Panel: GPS-Denied -->
+                    <div class="split-panel split-panel-left">
+                        <div class="panel-grid"></div>
+                        <div class="relative z-10">
+                            <!-- Simple Drone SVG (Quad-copter shape) -->
+                            <svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
+                                <path d="M50 15 V 35" /> <!-- Top arm -->
+                                <path d="M50 85 V 65" /> <!-- Bottom arm -->
+                                <path d="M15 50 H 35" /> <!-- Left arm -->
+                                <path d="M85 50 H 65" /> <!-- Right arm -->
+                                <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
+                                <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens -->
+                                <!-- Propellers -->
+                                <path d="M45 15 H 55" />
+                                <path d="M45 85 H 55" />
+                                <path d="M15 45 V 55" />
+                                <path d="M85 45 V 55" />
+                            </svg>
+                            <div class="status-text text-red-500 glitch-text">SIGNAL LOST</div>
+                            <p class="status-subtext text-gray-400">STATUS: OFFLINE</p>
+                        </div>
+                    </div>
+                    <!-- Right Panel: OMNIA AI -->
+                    <div class="split-panel split-panel-right">
+                        <div class="panel-grid"></div>
+                        <div class="relative z-10">
+                            <!-- Simple Drone SVG (Quad-copter shape) -->
+                            <svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
+                                <path d="M50 15 V 35" /> <!-- Top arm -->
+                                <path d="M50 85 V 65" /> <!-- Bottom arm -->
+                                <path d="M15 50 H 35" /> <!-- Left arm -->
+                                <path d="M85 50 H 65" /> <!-- Right arm -->
+                                <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
+                                <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens -->
+                                <!-- Propellers -->
+                                <path d="M45 15 H 55" />
+                                <path d="M45 85 H 55" />
+                                <path d="M15 45 V 55" />
+                                <path d="M85 45 V 55" />
+                            </svg>
+                            <!-- Title matches FAQ content -->
+                            <div class="status-text text-[var(--color-primary)]">OMNIA VIO ACTIVE</div>
+                            <p class="status-subtext text-gray-200">STATUS: OPERATIONAL</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- End of replaced visual -->
+
         </section>
 
         <!-- Scene 5: ALLIANCE -->
@@ -511,6 +766,10 @@
                     <summary class="font-semibold text-lg">Who is behind it?</summary>
                     <p class="text-gray-400 mt-2">Our team is composed of leading engineers, researchers, and strategists from UC Berkeley, with deep expertise in robotics, AI, and national security.</p>
                 </details>
+                 <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
+                    <summary class="font-semibold text-lg">Where has it been tested?</summary>
+                    <p class="text-gray-400 mt-2">Our systems are actively tested and validated in real-world conditions. We maintain a continuous feedback loop with operators and advisors on the front lines in Ukraine, ensuring our technology is hardened for missions in active GPS-jamming environments.</p>
+                </details>
             </div>
         </section>
 
@@ -522,10 +781,51 @@
              <div class="scroll-animate" style="transition-delay: 200ms;">
                 <h2 class="text-6xl md:text-8xl font-black text-[var(--color-primary)] mt-4 animate-text-pulse">AUTONOMY SURVIVES.</h2>
             </div>
-            <div class="scroll-animate mt-16" style="transition-delay: 400ms;">
+
+            <!-- NEW: Visual container -->
+            <div id="scene7-visual" class="scroll-animate" style="transition-delay: 400ms;">
+                <!-- Radar Pulse -->
+                <div class="radar-pulse"></div>
+                
+                <!-- Drone Wireframe SVG (similar to Scene 4) -->
+                <svg class="drone-wireframe" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 15 V 35" /> <!-- Top arm -->
+                    <path d="M50 85 V 65" /> <!-- Bottom arm -->
+                    <path d="M15 50 H 35" /> <!-- Left arm -->
+                    <path d="M85 50 H 65" /> <!-- Right arm -->
+                    <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
+                    <circle cx="50" cy="50" r="5" stroke-width="1" /> <!-- Lens -->
+                    <!-- Propellers -->
+                    <path d="M45 15 H 55" />
+                    <path d="M45 85 H 55" />
+                    <path d="M15 45 V 55" />
+                    <path d="M85 45 V 55" />
+                </svg>
+            </div>
+        
+            <!-- Logo Text (was in its own div) -->
+            <div class="scroll-animate mt-12" style="transition-delay: 500ms;"> <!-- Keeps margin from visual -->
                 <h1 class="text-7xl md:text-9xl lg:text-[10rem] font-black uppercase tracking-tighter opacity-50">
                     OMNIA AI
                 </h1>
+            </div>
+        
+            <!-- NEW: Contact Form -->
+            <div id="contact-form" class="scroll-animate" style="transition-delay: 600ms;">
+                <form action="#" class="space-y-4 mt-12"> <!-- Added margin-top to clear logo -->
+                    <div>
+                        <input type="text" name="name" placeholder="Name" class="form-input hoverable">
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Email" class="form-input hoverable">
+                    </div>
+                    <div>
+                        <textarea name="message" placeholder="Message / Partnership Inquiry" rows="4" class="form-input hoverable"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="form-button hoverable">Send Brief</button>
+                    </div>
+                </form>
             </div>
         </section>
 
@@ -864,4 +1164,7 @@
     </script>
 </body>
 </html>
+
+
+
 
