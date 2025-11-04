@@ -427,56 +427,10 @@
         /* --- End Scene 4 Styles --- */
 
 
-        /* --- NEW: Scene 7 Visuals --- */
-        #scene7-visual {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 4rem auto 0 auto; /* mt-16 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* --- Contact Form Styles --- */
+        #contact-form-section {
+            padding: 8rem 0; /* py-32 */
         }
-
-        .drone-wireframe {
-            width: 60%;
-            height: 60%;
-            stroke: var(--color-primary);
-            stroke-width: 1.5;
-            fill: none;
-            filter: drop-shadow(0 0 10px var(--color-primary));
-            opacity: 0.7;
-            z-index: 10;
-        }
-
-        .radar-pulse {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: transparent;
-            border: 2px solid var(--color-primary);
-            opacity: 0.5;
-            transform: scale(1);
-            animation: radar-ping 3s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 5;
-        }
-
-        @keyframes radar-ping {
-            0% {
-                transform: scale(0.1);
-                opacity: 0.8;
-            }
-            90% {
-                transform: scale(30); /* Expands to 300px if base is 10px */
-                opacity: 0;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* --- NEW: Scene 7 Form --- */
         #contact-form {
             max-width: 500px;
             margin: 2rem auto 0 auto;
@@ -523,53 +477,69 @@
             animation: flicker 150ms 2;
         }
 
+        /* Specific styles for new "About Us" scene */
+        #about-us-scene {
+            position: relative;
+            background-color: var(--color-navy);
+            overflow: hidden;
+        }
+        #about-us-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2;
+        }
+        .about-text-container {
+            position: relative;
+            z-index: 10;
+        }
+        .about-highlight {
+            color: var(--color-primary);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 216, 255, 0.5);
+        }
+
     </style>
 </head>
 <body class="grid-background">
 
-    <!-- Custom Cursor -->
-    <!-- These elements MUST exist for the script to find them -->
-    <div class="custom-cursor">
+    <!-- Custom Cursor --><!-- These elements MUST exist for the script to find them --><div class="custom-cursor">
         <div class="cursor-crosshair"><div class="cursor-dot"></div></div>
     </div>
     <div class="magic-trail"></div>
 
     <div class="container mx-auto px-4 md:px-8">
         
-        <!-- Header -->
-        <header class="flex justify-between items-center py-6 sticky top-0 bg-[var(--color-navy)]/80 backdrop-blur-sm z-50 border-b border-white/10">
+        <!-- Header --><header class="flex justify-between items-center py-6 sticky top-0 bg-[var(--color-navy)]/80 backdrop-blur-sm z-50 border-b border-white/10">
             <div class="text-2xl font-extrabold tracking-widest text-white">OMNIA AI</div>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#how-it-works" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">How It Works</a>
                 <a href="#field-proven" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">Field Proven</a>
                 <a href="#mission-brief" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">Mission Brief</a>
-                <a href="#contact" class="hoverable bg-[var(--color-primary)] text-black font-semibold px-4 py-2 rounded-md hover:bg-white transition-colors">Connect</a>
+                <a href="#about-omnia" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">About</a>
+                <a href="#contact-form-section" class="hoverable bg-[var(--color-primary)] text-black font-semibold px-4 py-2 rounded-md hover:bg-white transition-colors">Connect</a>
             </nav>
             <div class="flex items-center space-x-3">
-                <!-- US Flag SVG -->
-                <svg class="w-6 h-auto rounded-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900" title="Built in Silicon Valley">
+                <!-- US Flag SVG --><svg class="w-6 h-auto rounded-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900" title="Built in Silicon Valley">
                     <path fill="#b22234" d="M0 0h7410v3900H0z"/>
                     <path d="M0 0h2964v2100H0z" fill="#3c3b6e"/>
                     <g fill="#fff"><path d="M623 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM312 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM935 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1558 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2181 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM623 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM312 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM935 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1558 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2181 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM623 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136z"/></g>
                     <path stroke="#fff" stroke-width="300" d="M0 300h7410M0 900h7410M0 1500h7410M0 2100h7410M0 2700h7410M0 3300h7410"/>
                 </svg>
-                <!-- Ukrainian Flag SVG -->
-                <svg class="w-6 h-auto rounded-sm opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" title="For a free world">
+                <!-- Ukrainian Flag SVG --><svg class="w-6 h-auto rounded-sm opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" title="For a free world">
                     <path fill="#005bbb" d="M0 0h1200v800H0z"/>
                     <path fill="#ffd500" d="M0 400h1200v400H0z"/>
                 </svg>
             </div>
         </header>
 
-        <!-- Scene 1: HERO "INTELLIGENCE AWAKENS" -->
-        <main class="min-h-screen flex flex-col items-center justify-center text-center py-20 relative overflow-hidden">
-            <!-- Canvas for animated background -->
-            <canvas id="hero-canvas"></canvas>
+        <!-- Scene 1: HERO "INTELLIGENCE AWAKENS" --><main class="min-h-screen flex flex-col items-center justify-center text-center py-20 relative overflow-hidden">
+            <!-- Canvas for animated background --><canvas id="hero-canvas"></canvas>
 
-            <!-- REMOVED: Drone Silhouette SVG -->
-            
-            <div class="relative z-10"> <!-- z-index 10 is fine, keeps it above canvas -->
-                <h1 id="hero-h1-1" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter animate-text-pulse">
+            <!-- REMOVED: Drone Silhouette SVG --><div class="relative z-10"> <!-- z-index 10 is fine, keeps it above canvas --><h1 id="hero-h1-1" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter animate-text-pulse">
                     AUTONOMY FOR DRONES
                 </h1>
                  <h1 id="hero-h1-2" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-[var(--color-primary)] mt-2">
@@ -584,21 +554,15 @@
             </div>
         </main>
         
-        <!-- Scene 2: THE PROBLEM -->
-        <section class="py-24 text-center section-glow-border scroll-animate relative overflow-hidden"> <!-- NEW: Added relative and overflow-hidden -->
-            <!-- NEW: Background flicker canvas -->
-            <canvas id="scene2-canvas"></canvas>
+        <!-- Scene 2: THE PROBLEM --><section class="py-24 text-center section-glow-border scroll-animate relative overflow-hidden"> <!-- NEW: Added relative and overflow-hidden --><!-- NEW: Background flicker canvas --><canvas id="scene2-canvas"></canvas>
             
-            <!-- NEW: Added relative and z-10 to keep text on top -->
-            <div class="relative z-10">
+            <!-- NEW: Added relative and z-10 to keep text on top --><div class="relative z-10">
                 <h2 class="text-4xl md:text-6xl font-extrabold">The modern battlefield <span class="glitch-text text-red-500">kills</span> GPS.</h2>
                 <p class="text-gray-400 text-2xl mt-4">When the signal dies, most drones die with it.</p>
             </div>
         </section>
 
-        <!-- Scene 3: HOW IT WORKS -->
-        <!-- MODIFIED: Rebuilt this entire section for scroll animation -->
-        <section id="how-it-works" class="py-20 section-glow-border scroll-animate">
+        <!-- Scene 3: HOW IT WORKS --><!-- MODIFIED: Rebuilt this entire section for scroll animation --><section id="how-it-works" class="py-20 section-glow-border scroll-animate">
             <div id="scene3-sticky-container">
                 <div class="text-center mb-12 px-4">
                     <h2 class="text-4xl md:text-5xl font-bold">Intelligence That Sees Without Signal</h2>
@@ -607,14 +571,11 @@
                     </p>
                 </div>
     
-                <!-- Visuals Container -->
-                <div id="scene3-visuals">
+                <!-- Visuals Container --><div id="scene3-visuals">
                     
-                    <!-- Stage 1: Perception -->
-                    <div id="stage-1" class="stage">
+                    <!-- Stage 1: Perception --><div id="stage-1" class="stage">
                         <div class="stage-icon">
-                            <!-- SVG Camera Icon -->
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- SVG Camera Icon --><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect class="fill-shape" x="10" y="25" width="80" height="50" rx="5"/>
                                 <circle class="draw-stroke" cx="50" cy="50" r="20"/>
                                 <path class="draw-stroke" d="M30 35h10M60 35h10"/>
@@ -624,14 +585,11 @@
                         <p class="text-gray-400">Camera icon, glowing edges, data points forming.</p>
                     </div>
     
-                    <!-- Connector 1 -->
-                    <div id="line-1" class="connector-line"></div>
+                    <!-- Connector 1 --><div id="line-1" class="connector-line"></div>
     
-                    <!-- Stage 2: Decision -->
-                    <div id="stage-2" class="stage">
+                    <!-- Stage 2: Decision --><div id="stage-2" class="stage">
                         <div class="stage-icon">
-                            <!-- SVG Neural Net Icon -->
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- SVG Neural Net Icon --><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle class="fill-shape" cx="20" cy="50" r="8"/>
                                 <circle class="fill-shape" cx="50" cy="25" r="8"/>
                                 <circle class="fill-shape" cx="50" cy="75" r="8"/>
@@ -643,14 +601,11 @@
                         <p class="text-gray-400">Logic nodes animate like a neural net activating.</p>
                     </div>
     
-                    <!-- Connector 2 -->
-                    <div id="line-2" class="connector-line"></div>
+                    <!-- Connector 2 --><div id="line-2" class="connector-line"></div>
     
-                    <!-- Stage 3: Navigation -->
-                    <div id="stage-3" class="stage">
+                    <!-- Stage 3: Navigation --><div id="stage-3" class="stage">
                         <div class="stage-icon">
-                            <!-- SVG Flight Path Icon -->
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- SVG Flight Path Icon --><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path class="draw-stroke" d="M10 80 Q 30 20, 50 50 T 90 20" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path class="fill-shape" d="M85 15l5 5-5 5" stroke="var(--color-primary)"/>
                             </svg>
@@ -663,8 +618,7 @@
             </div>
         </section>
 
-        <!-- Scene 4: FIELD PROVEN -->
-        <section id="field-proven" class="py-20 section-glow-border scroll-animate">
+        <!-- Scene 4: FIELD PROVEN --><section id="field-proven" class="py-20 section-glow-border scroll-animate">
             <div class="text-center mb-12">
                 <h2 class="text-4xl md:text-5xl font-bold">Tested Where It Matters</h2>
             </div>
@@ -679,23 +633,13 @@
                 </div>
             </div>
             
-            <!-- MODIFIED: Replaced placeholder img with custom HTML/CSS/SVG visual -->
-            <div class="max-w-4xl mx-auto mt-12 rounded-lg overflow-hidden border border-gray-700">
+            <!-- MODIFIED: Replaced placeholder img with custom HTML/CSS/SVG visual --><div class="max-w-4xl mx-auto mt-12 rounded-lg overflow-hidden border border-gray-700">
                 <div class="split-view-container">
-                    <!-- Left Panel: GPS-Denied -->
-                    <div class="split-panel split-panel-left">
+                    <!-- Left Panel: GPS-Denied --><div class="split-panel split-panel-left">
                         <div class="panel-grid"></div>
                         <div class="relative z-10">
-                            <!-- Simple Drone SVG (Quad-copter shape) -->
-                            <svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
-                                <path d="M50 15 V 35" /> <!-- Top arm -->
-                                <path d="M50 85 V 65" /> <!-- Bottom arm -->
-                                <path d="M15 50 H 35" /> <!-- Left arm -->
-                                <path d="M85 50 H 65" /> <!-- Right arm -->
-                                <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
-                                <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens -->
-                                <!-- Propellers -->
-                                <path d="M45 15 H 55" />
+                            <!-- Simple Drone SVG (Quad-copter shape) --><svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
+                                <path d="M50 15 V 35" /> <!-- Top arm --><path d="M50 85 V 65" /> <!-- Bottom arm --><path d="M15 50 H 35" /> <!-- Left arm --><path d="M85 50 H 65" /> <!-- Right arm --><rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body --><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens --><!-- Propellers --><path d="M45 15 H 55" />
                                 <path d="M45 85 H 55" />
                                 <path d="M15 45 V 55" />
                                 <path d="M85 45 V 55" />
@@ -704,51 +648,26 @@
                             <p class="status-subtext text-gray-400">STATUS: OFFLINE</p>
                         </div>
                     </div>
-                    <!-- Right Panel: OMNIA AI -->
-                    <div class="split-panel split-panel-right">
+                    <!-- Right Panel: OMNIA AI --><div class="split-panel split-panel-right">
                         <div class="panel-grid"></div>
                         <div class="relative z-10">
-                            <!-- Simple Drone SVG (Quad-copter shape) -->
-                            <svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
-                                <path d="M50 15 V 35" /> <!-- Top arm -->
-                                <path d="M50 85 V 65" /> <!-- Bottom arm -->
-                                <path d="M15 50 H 35" /> <!-- Left arm -->
-                                <path d="M85 50 H 65" /> <!-- Right arm -->
-                                <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
-                                <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens -->
-                                <!-- Propellers -->
-                                <path d="M45 15 H 55" />
+                            <!-- Simple Drone SVG (Quad-copter shape) --><svg class="drone-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke-width="2" fill="none">
+                                <path d="M50 15 V 35" /> <!-- Top arm --><path d="M50 85 V 65" /> <!-- Bottom arm --><path d="M15 50 H 35" /> <!-- Left arm --><path d="M85 50 H 65" /> <!-- Right arm --><rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body --><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" /> <!-- Lens --><!-- Propellers --><path d="M45 15 H 55" />
                                 <path d="M45 85 H 55" />
                                 <path d="M15 45 V 55" />
                                 <path d="M85 45 V 55" />
                             </svg>
-                            <!-- Title matches FAQ content -->
-                            <div class="status-text text-[var(--color-primary)]">OMNIA VIO ACTIVE</div>
+                            <!-- Title matches FAQ content --><div class="status-text text-[var(--color-primary)]">OMNIA VIO ACTIVE</div>
                             <p class="status-subtext text-gray-200">STATUS: OPERATIONAL</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End of replaced visual -->
+            <!-- End of replaced visual --></section>
 
-        </section>
-
-        <!-- Scene 5: ALLIANCE -->
-        <section class="py-20 section-glow-border scroll-animate">
-            <div class="text-center">
-                 <h2 class="text-2xl font-bold text-gray-500 mb-8 uppercase tracking-widest">Built With Allies Who Believe in Autonomy</h2>
-                 <div class="flex justify-center items-center gap-12 flex-wrap opacity-60">
-                    <!-- Replaced img placeholders with styled text -->
-                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">BERKELEY</div>
-                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">BRAVE1</div>
-                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">DIU</div>
-                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">PALANTIR</div>
-                 </div>
-            </div>
-        </section>
+        <!-- REMOVED: Scene 5: ALLIANCE -->
         
-        <!-- Scene 6: MISSION BRIEF (FAQ) -->
-        <section id="mission-brief" class="py-20 section-glow-border scroll-animate">
+        <!-- Scene 6: MISSION BRIEF (FAQ) --><section id="mission-brief" class="py-20 section-glow-border scroll-animate">
             <div class="text-center mb-12">
                  <h2 class="text-4xl md:text-5xl font-bold">Mission Brief</h2>
                  <p class="text-gray-400 mt-2">Key questions about OMNIA AI</p>
@@ -761,58 +680,50 @@
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">How does it function when GPS is jammed?</summary>
                     <p class="text-gray-400 mt-2">OMNIA AI uses Visual-Inertial Odometry (VIO). It fuses data from standard cameras and onboard IMUs to create a highly accurate, real-time position estimate, allowing it to navigate without any external signals.</p>
-                </details> <!-- FIX: Corrected closing tag from </Fdetails> -->
-                 <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
+                </details> <!-- FIX: Corrected closing tag from </Fdetails> --><details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">Who is behind it?</summary>
                     <p class="text-gray-400 mt-2">Our team is composed of leading engineers, researchers, and strategists from UC Berkeley, with deep expertise in robotics, AI, and national security.</p>
                 </details>
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">Where has it been tested?</summary>
-                    <p class="text-gray-400 mt-2">Our systems are actively tested and validated in real-world conditions. We maintain a continuous feedback loop with operators and advisors on the front lines in Ukraine, ensuring our technology is hardened for missions in active GPS-jamming environments.</p>
+                    <p class="text-400 mt-2">Our systems are actively tested and validated in real-world conditions. We maintain a continuous feedback loop with operators and advisors on the front lines in Ukraine, ensuring our technology is hardened for missions in active GPS-jamming environments.</p>
                 </details>
             </div>
         </section>
 
-        <!-- Scene 7: FINAL IMPACT -->
-        <section class="py-32 text-center overflow-hidden">
-            <div class="scroll-animate">
-                <h3 class="text-5xl md:text-7xl font-extrabold text-gray-600">WHEN THE SIGNAL DIES...</h3>
-            </div>
-             <div class="scroll-animate" style="transition-delay: 200ms;">
-                <h2 class="text-6xl md:text-8xl font-black text-[var(--color-primary)] mt-4 animate-text-pulse">AUTONOMY SURVIVES.</h2>
-            </div>
-
-            <!-- NEW: Visual container -->
-            <div id="scene7-visual" class="scroll-animate" style="transition-delay: 400ms;">
-                <!-- Radar Pulse -->
-                <div class="radar-pulse"></div>
+        <!-- NEW Scene: ABOUT OMNIA AI (Replaces Final Impact) --><section id="about-omnia" class="py-32 section-glow-border text-center relative overflow-hidden">
+            <canvas id="about-us-canvas"></canvas>
+            <div class="about-text-container">
+                <h2 class="text-5xl md:text-6xl font-extrabold mb-8 scroll-animate">
+                    <span class="about-highlight">OMNIA AI:</span> The Future of Autonomous Resilience
+                </h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-6 scroll-animate" style="transition-delay: 200ms;">
+                    At its core, OMNIA AI is a <span class="about-highlight">vision-based autonomy system</span> that empowers drones to operate in the most challenging environments imaginable—specifically, where GPS and traditional communication signals are absent or actively jammed.
+                </p>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-6 scroll-animate" style="transition-delay: 400ms;">
+                    Born from the innovative spirit of <span class="about-highlight">Silicon Valley</span> and honed by insights from <span class="about-highlight">defense innovation roots</span>, we've developed a software-first, hardware-agnostic intelligence layer. This means our technology can be seamlessly integrated into existing drone fleets, upgrading them with unprecedented independence.
+                </p>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 scroll-animate" style="transition-delay: 600ms;">
+                    We are building not just a product, but a new standard for <span class="about-highlight">uninterrupted mission capability</span>. OMNIA AI ensures that when the signals die, autonomy doesn't just survive—it thrives.
+                </p>
                 
-                <!-- Drone Wireframe SVG (similar to Scene 4) -->
-                <svg class="drone-wireframe" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 15 V 35" /> <!-- Top arm -->
-                    <path d="M50 85 V 65" /> <!-- Bottom arm -->
-                    <path d="M15 50 H 35" /> <!-- Left arm -->
-                    <path d="M85 50 H 65" /> <!-- Right arm -->
-                    <rect x="35" y="35" width="30" height="30" rx="5" /> <!-- Body -->
-                    <circle cx="50" cy="50" r="5" stroke-width="1" /> <!-- Lens -->
-                    <!-- Propellers -->
-                    <path d="M45 15 H 55" />
-                    <path d="M45 85 H 55" />
-                    <path d="M15 45 V 55" />
-                    <path d="M85 45 V 55" />
-                </svg>
+                <!-- Interactive element: A simple button that changes text to simulate "activation" --><div class="mt-12 scroll-animate" style="transition-delay: 800ms;">
+                    <button id="activate-vision-button" class="hoverable bg-[var(--color-primary)] text-black font-semibold px-8 py-3 rounded-md hover:bg-white transition-colors text-lg">
+                        Simulate OMNIA Vision
+                    </button>
+                    <p id="vision-status" class="mt-4 text-gray-400 text-lg opacity-0 transition-opacity duration-500">
+                        Status: Offline
+                    </p>
+                </div>
             </div>
-        
-            <!-- Logo Text (was in its own div) -->
-            <div class="scroll-animate mt-12" style="transition-delay: 500ms;"> <!-- Keeps margin from visual -->
-                <h1 class="text-7xl md:text-9xl lg:text-[10rem] font-black uppercase tracking-tighter opacity-50">
-                    OMNIA AI
-                </h1>
-            </div>
-        
-            <!-- NEW: Contact Form -->
-            <div id="contact-form" class="scroll-animate" style="transition-delay: 600ms;">
-                <form action="#" class="space-y-4 mt-12"> <!-- Added margin-top to clear logo -->
+        </section>
+
+        <!-- Scene 7: CONTACT FORM --><section id="contact-form-section" class="section-glow-border text-center scroll-animate">
+            <h2 class="text-4xl md:text-5xl font-bold">Connect With Us</h2>
+            <p class="text-gray-400 mt-2">Ready to redefine autonomous systems?</p>
+            
+            <div id="contact-form" class="scroll-animate" style="transition-delay: 200ms;">
+                <form action="#" class="space-y-4 mt-12">
                     <div>
                         <input type="text" name="name" placeholder="Name" class="form-input hoverable">
                     </div>
@@ -829,8 +740,7 @@
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer id="contact" class="text-center py-10 border-t border-gray-800">
+        <!-- Footer --><footer id="contact" class="text-center py-10 border-t border-gray-800">
             <p class="text-lg">Ready to redefine autonomous systems?</p>
             <a href="mailto:contact@omnia-ai.dev" class="hoverable text-2xl font-bold text-[var(--color-primary)] my-2 inline-block hover:underline">contact@omnia-ai.dev</a>
             <p class="text-gray-500 mt-4">&copy; 2025 OMNIA AI. Built in Silicon Valley.</p>
@@ -1160,11 +1070,107 @@
         window.addEventListener('scroll', handleScene3Scroll);
         // --- End Scene 3 Logic ---
 
+
+        // --- NEW: About Us Canvas (Scene 7) ---
+        const aboutCanvas = document.getElementById('about-us-canvas');
+        if (aboutCanvas) {
+            const ctx = aboutCanvas.getContext('2d');
+            let nodes = [];
+            const numNodes = 30;
+            const maxDistance = 100;
+
+            function resizeAboutCanvas() {
+                if (aboutCanvas.parentElement) {
+                    aboutCanvas.width = aboutCanvas.parentElement.offsetWidth;
+                    aboutCanvas.height = aboutCanvas.parentElement.offsetHeight;
+                    initNodes();
+                }
+            }
+
+            class Node {
+                constructor(x, y) {
+                    this.x = x || Math.random() * aboutCanvas.width;
+                    this.y = y || Math.random() * aboutCanvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = 1.5;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > aboutCanvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > aboutCanvas.height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0, 216, 255, 0.6)';
+                    ctx.fill();
+                }
+            }
+
+            function initNodes() {
+                nodes = [];
+                for (let i = 0; i < numNodes; i++) {
+                    nodes.push(new Node());
+                }
+            }
+
+            function connectNodes() {
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dist = Math.sqrt(Math.pow(nodes[i].x - nodes[j].x, 2) + Math.pow(nodes[i].y - nodes[j].y, 2));
+                        if (dist < maxDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.strokeStyle = `rgba(0, 216, 255, ${1 - dist / maxDistance})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateAboutCanvas() {
+                ctx.clearRect(0, 0, aboutCanvas.width, aboutCanvas.height);
+                nodes.forEach(node => {
+                    node.update();
+                    node.draw();
+                });
+                connectNodes();
+                requestAnimationFrame(animateAboutCanvas);
+            }
+
+            resizeAboutCanvas();
+            window.addEventListener('resize', resizeAboutCanvas);
+            animateAboutCanvas();
+        }
+
+        // Interactive Button Logic for "About Us" scene
+        const activateButton = document.getElementById('activate-vision-button');
+        const visionStatus = document.getElementById('vision-status');
+
+        if (activateButton && visionStatus) {
+            activateButton.addEventListener('click', () => {
+                if (visionStatus.textContent.includes('Offline')) {
+                    visionStatus.textContent = 'Status: OMNIA Vision Active!';
+                    visionStatus.style.color = 'var(--color-primary)';
+                    visionStatus.style.opacity = '1';
+                } else {
+                    visionStatus.textContent = 'Status: Offline';
+                    visionStatus.style.color = 'gray';
+                    visionStatus.style.opacity = '1';
+                }
+            });
+        }
+
     });
     </script>
 </body>
 </html>
-
-
 
 
