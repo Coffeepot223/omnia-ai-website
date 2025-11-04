@@ -72,8 +72,21 @@
             background-color: var(--color-primary);
         }
 
-        .cursor-crosshair::before { width: 2px; height: 10px; left: 50%; top: -12px; transform: translateX(-50%); }
-        .cursor-crosshair::after { width: 10px; height: 2px; top: 50%; left: -12px; transform: translateY(-50%); }
+        /* Adjusted crosshair lines to be more visible and centered */
+        .cursor-crosshair::before {
+            width: 2px;
+            height: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) translateY(-10px); /* Adjusted */
+        }
+        .cursor-crosshair::after {
+            width: 10px;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateX(-10px); /* Adjusted */
+        }
         
         .cursor-dot {
             width: 6px;
@@ -155,10 +168,8 @@
         
         /* Grid background */
         .grid-background {
-            background-image:
-                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+            /* This is now handled by the canvas in the hero, but kept for other sections if needed */
+            background-color: var(--color-navy);
         }
         
         /* Tech Core Tabs */
@@ -179,6 +190,31 @@
         .tech-content.active {
             display: block; /* Use block for single content */
         }
+
+        /* Hero Canvas */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2; /* Faint as requested */
+        }
+
+        /* Hero Boot-up Animations */
+        #hero-h1-1, #hero-h1-2, #hero-p, #hero-cta {
+            opacity: 0; /* Start hidden for boot-up */
+        }
+
+        @keyframes flicker {
+            0%, 100% { box-shadow: 0 0 5px 2px var(--color-primary), inset 0 0 5px 2px var(--color-primary); }
+            50% { box-shadow: none; }
+        }
+        .animate-flicker {
+            animation: flicker 150ms 2;
+        }
+
     </style>
 </head>
 <body class="grid-background">
@@ -193,12 +229,7 @@
     <div class="container mx-auto px-4 md:px-8">
         
         <!-- Header -->
-        <!-- 
-          * OPTIMIZATION: Removed 'backdrop-blur-md'.
-          * This effect can be a source of scroll lag/jank on some systems
-          * as the browser has to re-calculate the blur on every pixel scrolled.
-        -->
-        <header class="flex justify-between items-center py-6 sticky top-0 bg-black/50 z-50">
+        <header class="flex justify-between items-center py-6 sticky top-0 bg-[var(--color-navy)]/80 backdrop-blur-sm z-50 border-b border-white/10">
             <div class="text-2xl font-extrabold tracking-widest text-white">OMNIA AI</div>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#how-it-works" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">How It Works</a>
@@ -206,32 +237,38 @@
                 <a href="#mission-brief" class="hoverable text-gray-300 hover:text-[var(--color-primary)] transition-colors">Mission Brief</a>
                 <a href="#contact" class="hoverable bg-[var(--color-primary)] text-black font-semibold px-4 py-2 rounded-md hover:bg-white transition-colors">Connect</a>
             </nav>
-            <div class="flex items-center">
-                <img src="https://placehold.co/24x16/00247d/ffffff?text=US" alt="US Flag" class="w-6 h-4 mr-2 rounded-sm" title="Built in Silicon Valley">
-                <img src="https://placehold.co/24x16/ffd700/0057b7?text=UA" alt="Ukrainian Flag" class="w-6 h-4 opacity-70 rounded-sm" title="For a free world">
+            <div class="flex items-center space-x-3">
+                <!-- US Flag SVG -->
+                <svg class="w-6 h-auto rounded-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900" title="Built in Silicon Valley">
+                    <path fill="#b22234" d="M0 0h7410v3900H0z"/>
+                    <path d="M0 0h2964v2100H0z" fill="#3c3b6e"/>
+                    <g fill="#fff"><path d="M623 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 312l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM312 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM935 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1558 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2181 623l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM623 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 935l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM312 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM935 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1558 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2181 1246l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM623 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1246 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM1869 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136zM2492 1558l42 129h136l-110 79 42 129-110-80-110 80 42-129-110-79h136z"/></g>
+                    <path stroke="#fff" stroke-width="300" d="M0 300h7410M0 900h7410M0 1500h7410M0 2100h7410M0 2700h7410M0 3300h7410"/>
+                </svg>
+                <!-- Ukrainian Flag SVG -->
+                <svg class="w-6 h-auto rounded-sm opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" title="For a free world">
+                    <path fill="#005bbb" d="M0 0h1200v800H0z"/>
+                    <path fill="#ffd500" d="M0 400h1200v400H0z"/>
+                </svg>
             </div>
         </header>
 
         <!-- Scene 1: HERO "INTELLIGENCE AWAKENS" -->
         <main class="min-h-screen flex flex-col items-center justify-center text-center py-20 relative overflow-hidden">
-            <!-- Placeholder for Hero Video/Image -->
-            <div class="absolute inset-0 z-0 opacity-20">
-                <img src="https://placehold.co/1920x1080/0A0F1B/00D8FF?text=Hero+Image%3A+Drone+in+fog%2C+%22SIGNAL+LOST%22%2C+blue+AI+glow" 
-                     alt="Hero: When GPS Dies" class="w-full h-full object-cover"
-                     onerror="this.src='https://placehold.co/1920x1080/0A0F1B/00D8FF?text=FPV+drone+hovering%2C+red+%22SIGNAL+LOST%22+text%2C+blue+AI+circuit+glows+on+drone.+Foggy+battlefield.'">
-            </div>
+            <!-- Canvas for animated background -->
+            <canvas id="hero-canvas"></canvas>
             
             <div class="relative z-10">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter animate-text-pulse">
+                <h1 id="hero-h1-1" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter animate-text-pulse">
                     AUTONOMY FOR DRONES
                 </h1>
-                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-[var(--color-primary)] mt-2">
+                 <h1 id="hero-h1-2" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-[var(--color-primary)] mt-2">
                     IN GPS-DENIED ENVIRONMENTS
                 </h1>
-                <p class="mt-6 text-lg md:text-xl max-w-3xl text-gray-400">
+                <p id="hero-p" class="mt-6 text-lg md:text-xl max-w-3xl text-gray-400">
                     Built in Silicon Valley by a Berkeley team - born from defense innovation roots.
                 </p>
-                <a href="#how-it-works" class="hoverable mt-12 inline-block bg-[var(--color-primary)] text-black font-semibold px-8 py-3 rounded-md hover:bg-white transition-colors text-lg">
+                <a id="hero-cta" href="#how-it-works" class="hoverable mt-12 inline-block bg-[var(--color-primary)] text-black font-semibold px-8 py-3 rounded-md hover:bg-white transition-colors text-lg">
                     SEE HOW IT WORKS
                 </a>
             </div>
@@ -252,9 +289,9 @@
 
             <!-- Tabs -->
             <div id="tech-tabs" class="flex justify-center border-b border-gray-700 mb-8">
-                <button class="tech-tab active" data-tab="perception">1. PERCEPTION</button>
-                <button class="tech-tab" data-tab="decision">2. DECISION</button>
-                <button class="tech-tab" data-tab="navigation">3. NAVIGATION</button>
+                <button class="tech-tab active hoverable" data-tab="perception">1. PERCEPTION</button>
+                <button class="tech-tab hoverable" data-tab="decision">2. DECISION</button>
+                <button class="tech-tab hoverable" data-tab="navigation">3. NAVIGATION</button>
             </div>
 
             <!-- Content -->
@@ -318,10 +355,11 @@
             <div class="text-center">
                  <h2 class="text-2xl font-bold text-gray-500 mb-8 uppercase tracking-widest">Built With Allies Who Believe in Autonomy</h2>
                  <div class="flex justify-center items-center gap-12 flex-wrap opacity-60">
-                    <img src="https://placehold.co/120x40/0A0F1B/ffffff?text=BERKELEY" alt="Berkeley Logo" class="h-8 hoverable transition-opacity hover:opacity-100">
-                    <img src="https://placehold.co/120x40/0A0F1B/ffffff?text=BRAVE1" alt="Brave1 Logo" class="h-8 hoverable transition-opacity hover:opacity-100">
-                    <img src="https://placehold.co/120x40/0A0F1B/ffffff?text=DIU" alt="DIU Logo" class="h-8 hoverable transition-opacity hover:opacity-100">
-                    <img src="https://placehold.co/120x40/0A0F1B/ffffff?text=PALANTIR" alt="Palantir Logo" class="h-8 hoverable transition-opacity hover:opacity-100">
+                    <!-- Replaced img placeholders with styled text -->
+                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">BERKELEY</div>
+                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">BRAVE1</div>
+                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">DIU</div>
+                    <div class="text-2xl font-bold text-white hoverable transition-opacity hover:opacity-100">PALANTIR</div>
                  </div>
             </div>
         </section>
@@ -340,7 +378,7 @@
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">How does it function when GPS is jammed?</summary>
                     <p class="text-gray-400 mt-2">OMNIA AI uses Visual-Inertial Odometry (VIO). It fuses data from standard cameras and onboard IMUs to create a highly accurate, real-time position estimate, allowing it to navigate without any external signals.</p>
-                </Fdetails>
+                </details> <!-- FIX: Corrected closing tag from </Fdetails> -->
                  <details class="bg-[var(--color-gray)] p-4 rounded-lg cursor-pointer hoverable border border-transparent hover:border-[var(--color-primary)]">
                     <summary class="font-semibold text-lg">Who is behind it?</summary>
                     <p class="text-gray-400 mt-2">Our team is composed of leading engineers, researchers, and strategists from UC Berkeley, with deep expertise in robotics, AI, and national security.</p>
@@ -373,7 +411,132 @@
     
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Custom Cursor Logic
+        // --- 1. HERO "BOOT UP" ANIMATION ---
+        // This runs once on load, independent of scroll
+        const hero_h1_1 = document.getElementById('hero-h1-1');
+        const hero_h1_2 = document.getElementById('hero-h1-2');
+        const hero_p = document.getElementById('hero-p');
+        const hero_cta = document.getElementById('hero-cta');
+
+        const bootUpTimeline = [
+            { el: hero_h1_1, delay: 300, duration: 1000 },
+            { el: hero_h1_2, delay: 500, duration: 1000 },
+            { el: hero_p, delay: 800, duration: 800 },
+            { el: hero_cta, delay: 1200, duration: 500, flicker: true }
+        ];
+
+        bootUpTimeline.forEach(item => {
+            if (item.el) {
+                setTimeout(() => {
+                    item.el.style.transition = `opacity ${item.duration}ms ease-out`;
+                    item.el.style.opacity = 1;
+                    if (item.flicker) {
+                        // Add flicker animation from design doc
+                        setTimeout(() => item.el.classList.add('animate-flicker'), 100);
+                    }
+                }, item.delay);
+            }
+        });
+
+        // --- 2. HERO CANVAS ANIMATION ---
+        const canvas = document.getElementById('hero-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let radarAngle = 0;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = canvas.parentElement.offsetHeight; // Match hero section height
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Particle class
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.3; // Slower
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.radius = Math.random() * 1.5;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0, 216, 255, 0.5)';
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                let numParticles = (canvas.width * canvas.height) / 15000; // Fewer particles
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+
+            // Draw grid (from design doc)
+            function drawGrid() {
+                const gridSize = 40;
+                ctx.beginPath();
+                for (let x = 0; x <= canvas.width; x += gridSize) {
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                }
+                for (let y = 0; y <= canvas.height; y += gridSize) {
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                }
+                ctx.strokeStyle = 'rgba(0, 216, 255, 0.1)';
+                ctx.stroke();
+            }
+
+            // Draw radar sweep (from design doc)
+            function drawRadar() {
+                radarAngle += 0.005;
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const radius = Math.max(canvas.width, canvas.height) * 0.8;
+                
+                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                gradient.addColorStop(0, 'rgba(0, 216, 255, 0.15)');
+                gradient.addColorStop(0.1, 'rgba(0, 216, 255, 0.1)');
+                gradient.addColorStop(0.4, 'rgba(0, 216, 255, 0.0)');
+                
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, radarAngle, radarAngle + Math.PI / 4);
+                ctx.closePath();
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Canvas animation loop
+            function animateCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawGrid();
+                drawRadar();
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateCanvas);
+            }
+            animateCanvas();
+        }
+
+        // --- 3. CUSTOM CURSOR LOGIC ---
         const cursor = document.querySelector('.custom-cursor');
         const trail = document.querySelector('.magic-trail');
         const hoverables = document.querySelectorAll('.hoverable');
@@ -381,7 +544,6 @@
 
         if (!isTouchDevice()) {
             document.body.style.cursor = 'none';
-            // * FIX: Add null checks inside functions to prevent errors if elements aren't found
             const showCursor = () => { 
                 if (cursor) cursor.style.opacity = 1; 
                 if (trail) trail.style.opacity = 1; 
@@ -392,14 +554,11 @@
             };
 
             document.addEventListener('mousemove', (e) => {
-                // * OPTIMIZATION + FIX: Add null check
                 if (cursor) {
-                    cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                    // Use translate3d for hardware acceleration
+                    cursor.style.transform = `translate3d(${e.clientX - 15}px, ${e.clientY - 15}px, 0)`; // Center the 30x30 crosshair
                 }
-
-                // The trail should still be smoothed, so it *stays* in rAF.
                 requestAnimationFrame(() => {
-                    // * FIX: Add null check
                     if (trail) {
                         trail.style.transform = `translate3d(${e.clientX - trail.offsetWidth/2}px, ${e.clientY - trail.offsetHeight/2}px, 0)`;
                     }
@@ -409,26 +568,24 @@
             document.addEventListener('mouseenter', showCursor);
             document.addEventListener('mouseleave', hideCursor);
             document.addEventListener('mousedown', () => {
-                // * FIX: Add null check
                 if (cursor && cursor.firstElementChild) {
                     cursor.firstElementChild.style.transform = 'scale(0.9)';
                 }
             });
             document.addEventListener('mouseup', () => {
-                // * FIX: Add null check
                 if (cursor && cursor.firstElementChild) {
                     cursor.firstElementChild.style.transform = '';
                 }
             });
 
             hoverables.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                el.addEventListener('mouseenter', () => cursor && cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor && cursor.classList.remove('hover'));
             });
             showCursor();
         }
 
-        // Scroll Animation Logic
+        // --- 4. SCROLL ANIMATION LOGIC ---
         const animatedElements = document.querySelectorAll('.scroll-animate');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -439,7 +596,7 @@
         }, { threshold: 0.1 });
         animatedElements.forEach(el => observer.observe(el));
 
-        // Tech Core Tabs Logic
+        // --- 5. TECH CORE TABS LOGIC ---
         const tabs = document.querySelectorAll('.tech-tab');
         const contents = document.querySelectorAll('.tech-content');
         tabs.forEach(tab => {
@@ -447,11 +604,13 @@
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.remove('active'));
                 tab.classList.add('active');
-                document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
+                const contentEl = document.getElementById(`${tab.dataset.tab}-content`);
+                if (contentEl) {
+                    contentEl.classList.add('active');
+                }
             });
         });
     });
     </script>
 </body>
 </html>
-
